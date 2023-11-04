@@ -1,0 +1,28 @@
+{
+  "name": "ticketraa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "nodemon src/index.js",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/coinMgr-api"
+  },
+  "author": "Yathushan",
+  "license": "ISC",
+  "dependencies": {
+    "amazon-cognito-identity-js": "^6.1.2",
+    "awilix": "^8.0.0",
+    "aws-sdk": "^2.1313.0",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.0",
+    "mongodb": "^4.5.0",
+    "mongoose": "^6.3.1",
+    "mongoose-autopopulate": "^0.16.1",
+    "nodemon": "^2.0.21"
+  }
+}
