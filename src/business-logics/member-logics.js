@@ -23,7 +23,7 @@ module.exports = function({memberCollection, config, aws}){
         },
 
         changeMemberApproval: function (memberId, memberApprovalStatus, declinedMessage) {
-            if (memberApprovalStatus == 'DECLINED') {
+            if (memberApprovalStatus == 'DECLINED' || memberApprovalStatus == 'REMOVED') {
                 return memberCollection.changeMemberApproval(memberId, memberApprovalStatus, declinedMessage)
             }
             else {

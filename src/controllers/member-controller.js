@@ -64,13 +64,13 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
         const { body: { memberApprovalStatus, declinedMessage } } = req
 
 
-        if (memberApprovalStatus !== 'DECLINED' && memberApprovalStatus !== 'APPROVED' && memberApprovalStatus !== 'PENDING') {
-            res.status(400).send({ result: 'Member Approval Status in wrong. It should be APPROVED or PENDING or DECLINED' })
+        if (memberApprovalStatus !== 'DECLINED' && memberApprovalStatus !== 'APPROVED' && memberApprovalStatus !== 'PENDING' && memberApprovalStatus !== 'REMOVED') {
+            res.status(400).send({ result: 'Member Approval Status in wrong. It should be APPROVED or PENDING or DECLINED or REMOVED' })
         }
-        else if (memberApprovalStatus == 'DECLINED' && (!declinedMessage || declinedMessage == '')) {
+        else if ((memberApprovalStatus == 'DECLINED' || memberApprovalStatus == 'REMOVED') && (!declinedMessage || declinedMessage == '')) {
             res.status(400).send({ result: 'Declined memberships should be have a declined message' })
         }
-        else if (memberApprovalStatus == 'DECLINED' && declinedMessage && declinedMessage != '') {
+        else if ((memberApprovalStatus == 'DECLINED' || memberApprovalStatus == 'REMOVED') && declinedMessage && declinedMessage != '') {
             memberLogics.changeMemberApproval(memberId, memberApprovalStatus, declinedMessage).then(result => {
                 res.send({ "result": result })
             }).catch((err => {
