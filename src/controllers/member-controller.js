@@ -63,7 +63,6 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
         const { params: { memberId } } = req
         const { body: { memberApprovalStatus, declinedMessage } } = req
 
-
         if (memberApprovalStatus !== 'DECLINED' && memberApprovalStatus !== 'APPROVED' && memberApprovalStatus !== 'PENDING' && memberApprovalStatus !== 'REMOVED') {
             res.status(400).send({ result: 'Member Approval Status in wrong. It should be APPROVED or PENDING or DECLINED or REMOVED' })
         }
