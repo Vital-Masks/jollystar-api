@@ -3,7 +3,7 @@ module.exports = function ({ mongoose }) {
         title: { type: String, required: false },
         description: { type: String, required: false },
         file: { type: Object, required: false },
-        isDeleted: { type: Boolean, required: false },  
+        isDeleted: { type: Boolean, required: false , default: false},  
     },
         {
             timestamps: {

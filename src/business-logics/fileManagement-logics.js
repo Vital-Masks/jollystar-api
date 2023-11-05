@@ -18,6 +18,7 @@ module.exports = function({fileManagementCollection, config, aws}){
         },
 
         softDelete: function (fileId){
+            console.log("zxcz",fileId)
             return fileManagementCollection.softDelete(fileId)
         },
     }

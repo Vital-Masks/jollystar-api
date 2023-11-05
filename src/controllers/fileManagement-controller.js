@@ -5,7 +5,7 @@ module.exports = function ({ express, fileManagementLogics, commons }) {
     this.expressRouter.get('/getAllFiles', getAllFileManagements);
     this.expressRouter.get('/:fileId', getFileByFileId);
     this.expressRouter.put('/:fileId', updateFileManagement);
-    this.expressRouter.put('/:fileId', deleteFileManagement);
+    this.expressRouter.put('/delete/:fileId', deleteFileManagement);
 
     return this.expressRouter
 
