@@ -1,4 +1,4 @@
-module.exports = function ({ express, memberLogics, commons }) {
+module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
 
     this.expressRouter = new express.Router({ mergeParams: true })
 
@@ -11,15 +11,26 @@ module.exports = function ({ express, memberLogics, commons }) {
     return this.expressRouter
 
     function createMember(req, res, next) {
-        const { body } = req
+        const { body } = req;
+        let paymentDetails = body.paymentDetails;
 
-       return memberLogics.createMember(body).then((result) => {
-            console.log("rrr",result)
-            res.send({ "status": "member  Saved Successfully", "result": result });
+        delete body.paymentDetails
+
+        return memberLogics.createMember(body).then((result) => {
+            console.log("rrr", result)
+            paymentDetails.memberId = result._id
+
+            return paymentLogics.createPayment(paymentDetails).then((respos) => {
+                res.send({ "status": "member  Saved Successfully", "result": result });
+            }).catch((err => {
+                return next(commons.errorHandler(err));
+            }))
+
         }).catch((err => {
             return next(commons.errorHandler(err));
         }))
     }
+
     function getmemberByEmail(req, res, next) {  
         const {query:{ email }} = req
         console.log("email",email)
