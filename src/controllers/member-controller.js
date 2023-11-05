@@ -6,6 +6,7 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
     this.expressRouter.get('/getAllmembers', getAllmembers);
     this.expressRouter.get('/getEmail', getmemberByEmail);
     this.expressRouter.get('/:memberId', getmemberById);
+    this.expressRouter.put('/memberApproval/:memberId', changeMemberApproval);
     
 
     return this.expressRouter
@@ -56,5 +57,32 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
         }).catch((err => {
             return next(commons.errorHandler(err));
         }))
+    }
+
+    function changeMemberApproval(req, res, next) {
+        const { params: { memberId } } = req
+        const { body: { memberApprovalStatus, declinedMessage } } = req
+
+
+        if (memberApprovalStatus !== 'DECLINED' && memberApprovalStatus !== 'APPROVED' && memberApprovalStatus !== 'PENDING') {
+            res.status(400).send({ result: 'Member Approval Status in wrong. It should be APPROVED or PENDING or DECLINED' })
+        }
+        else if (memberApprovalStatus == 'DECLINED' && (!declinedMessage || declinedMessage == '')) {
+            res.status(400).send({ result: 'Declined memberships should be have a declined message' })
+        }
+        else if (memberApprovalStatus == 'DECLINED' && declinedMessage && declinedMessage != '') {
+            memberLogics.changeMemberApproval(memberId, memberApprovalStatus, declinedMessage).then(result => {
+                res.send({ "result": result })
+            }).catch((err => {
+                return next(commons.errorHandler(err));
+            }))
+        }
+        else {
+            memberLogics.changeMemberApproval(memberId, memberApprovalStatus).then(result => {
+                res.send({ "result": result })
+            }).catch((err => {
+                return next(commons.errorHandler(err));
+            }))
+        }
     }
 }

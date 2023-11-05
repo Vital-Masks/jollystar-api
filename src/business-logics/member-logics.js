@@ -20,6 +20,18 @@ module.exports = function({memberCollection, config, aws}){
 
         getAllmembers: function (){
             return memberCollection.getAllmembers()
-        }
+        },
+
+        changeMemberApproval: function (memberId, memberApprovalStatus, declinedMessage) {
+            if (memberApprovalStatus == 'DECLINED') {
+                return memberCollection.changeMemberApproval(memberId, memberApprovalStatus, declinedMessage)
+            }
+            else {
+                return memberCollection.changeMemberApproval(memberId, memberApprovalStatus, '')
+            }
+        },
+
+        
+
     }
 }

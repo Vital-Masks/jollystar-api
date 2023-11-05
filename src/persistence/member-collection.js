@@ -34,6 +34,11 @@ module.exports = function ({ mongoose }) {
             role: { type: String, required: false }
         }],
         gallery: [{ type: Object, required: false }],
+        isSchoolDetailVerified: { type: Boolean, required: false },
+        isPaymentDetailVerified: { type: Boolean, required: false },
+        memberApprovalStatus: { type: String, required: false },
+        membershipId: { type: String, required: false },
+        declinedMessage: { type: String, required: false }
     },
         {
             timestamps: {
@@ -93,6 +98,15 @@ module.exports = function ({ mongoose }) {
                 let err = new Error(error);
                 throw err
             })        
-        }
+        },
+
+        changeMemberApproval: function(memberId,memberApprovalStatus, declinedMessage){
+            return memberModel.findOneAndUpdate({ _id: memberId }, { memberApprovalStatus: memberApprovalStatus, declinedMessage :declinedMessage },{ returnDocument: 'after' }).then(response=>{
+                return response
+            }).catch(error=>{
+                let err = new Error(error);
+                throw err
+            })        
+        },
     }
 }
