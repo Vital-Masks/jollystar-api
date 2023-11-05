@@ -1,7 +1,7 @@
 module.exports = function ({ mongoose }) {
     const memberSchema = new mongoose.Schema({
         membershipCategory: { type: String, required: false },
-        profilePicture: { type: String, required: false },
+        profilePicture: { type: Object, required: false },
         title: { type: String, required: false },
         firstName: { type: String, required: false },
         lastName: { type: String, required: false },
@@ -33,7 +33,7 @@ module.exports = function ({ mongoose }) {
             to: { type: String, required: false },
             role: { type: String, required: false }
         }],
-        gallery: { type: Array, required: false },
+        gallery: [{ type: Object, required: false }],
     },
         {
             timestamps: {
