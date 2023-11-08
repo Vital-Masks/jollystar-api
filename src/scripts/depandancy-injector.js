@@ -13,6 +13,7 @@ module.exports = function loadModules(awilix){
         mongoose: awilix.asValue(require('mongoose')),
         mongodb: awilix.asValue(require('mongodb')),
         cors: awilix.asValue(require('cors')),
+        multer: awilix.asValue(require('multer')),
         mongooseAutopopulate: awilix.asValue(require('mongoose-autopopulate')),
     })
 

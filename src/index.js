@@ -34,6 +34,7 @@ module.exports = function run({ initiateModule, container }) {
 
     function useInitialMiddlewares() {
       app.use(cors());
+      app.use("/files", express.static("files"))
 
       app.use(cors({
         origin:['http://localhost:3000']

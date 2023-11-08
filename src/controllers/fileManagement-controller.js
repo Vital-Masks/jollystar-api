@@ -1,7 +1,19 @@
-module.exports = function ({ express, fileManagementLogics, commons }) {
+module.exports = function ({ express, fileManagementLogics, commons, multer }) {
     this.expressRouter = new express.Router({ mergeParams: true });
 
-    this.expressRouter.post('', createFileManagement);
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, './files')
+        },
+        filename: function (req, file, cb) {
+          const uniqueSuffix = Date.now() 
+          cb(null, uniqueSuffix + '-' + file.originalname)
+        }
+      })
+      
+      const upload = multer({ storage: storage })
+
+    this.expressRouter.post('', upload.single("file"), createFileManagement);
     this.expressRouter.get('/getAllFiles', getAllFileManagements);
     this.expressRouter.get('/:fileId', getFileByFileId);
     this.expressRouter.put('/:fileId', updateFileManagement);
@@ -9,8 +21,12 @@ module.exports = function ({ express, fileManagementLogics, commons }) {
 
     return this.expressRouter
 
+
+
     function createFileManagement(req, res, next) {
         const { body } = req
+        body.file = req.file.filename
+       
 
         fileManagementLogics.createFileManagement(body).then((result) => {
             res.send({ "status": "Company Request Saved Successfully", "result": result });
