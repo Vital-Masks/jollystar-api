@@ -7,7 +7,7 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
     this.expressRouter.get('/getEmail', getmemberByEmail);
     this.expressRouter.get('/:memberId', getmemberById);
     this.expressRouter.put('/memberApproval/:memberId', changeMemberApproval);
-    
+    const mongoose = require('mongoose');
 
     return this.expressRouter
 
@@ -43,12 +43,19 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
     }
 
     function getmemberById(req, res, next) {
-        const { params: { memberId } } = req
-        memberLogics.getmemberById(memberId).then(result => {
-            res.send({ "result": result })
-        }).catch((err => {
-            return next(commons.errorHandler(err));
-        }))
+        const { params: { memberId } } = req;
+    
+        if (!mongoose.Types.ObjectId.isValid(memberId)) {
+            return res.status(400).send({ error: 'Invalid memberId' });
+        }
+    
+        memberLogics.getmemberById(memberId)
+            .then(result => {
+                res.send({ "result": result });
+            })
+            .catch(err => {
+                return next(commons.errorHandler(err));
+            });
     }
 
     function getAllmembers(req, res, next) {
