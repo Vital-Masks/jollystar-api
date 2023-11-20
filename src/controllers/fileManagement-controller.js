@@ -1,3 +1,5 @@
+
+
 module.exports = function ({ express, fileManagementLogics, commons, multer }) {
     this.expressRouter = new express.Router({ mergeParams: true });
 
@@ -17,10 +19,10 @@ module.exports = function ({ express, fileManagementLogics, commons, multer }) {
     this.expressRouter.get('/getAllFiles', getAllFileManagements);
     this.expressRouter.get('/:fileId', getFileByFileId);
     this.expressRouter.put('/:fileId', updateFileManagement);
-    this.expressRouter.put('/delete/:fileId', deleteFileManagement);
+    this.expressRouter.delete('/delete/:fileId', deleteFileManagement);
 
     return this.expressRouter
-
+    
 
 
     function createFileManagement(req, res, next) {
@@ -57,21 +59,60 @@ module.exports = function ({ express, fileManagementLogics, commons, multer }) {
     }
 
     function updateFileManagement(req, res, next) {
-        const { params: { fileId } } = req
-        const { body } = req
-        fileManagementLogics.updatefileManagementData(fileId, body).then(result => {
-            res.send({ "result": result })
-        }).catch((err => {
-            return next(commons.errorHandler(err));
-        }))
+        try {
+            const { params: { fileId } } = req;
+    
+            console.log('Received PUT request for fileId:', fileId);
+    
+            // Use the multer middleware to handle the file
+            upload.single('file')(req, res, async function (err) {
+                if (err) {
+                    console.error('Error handling file upload:', err);
+                    return next(err);
+                }
+    
+                console.log('req.body:', req.body); // Log the request body
+                console.log('req.file:', req.file); // Log the uploaded file information
+    
+                const { title, description } = req.body;
+    
+                // Check if req.file is present and update file information
+                const fileUpdate = req.file ? { file: req.file.filename } : {};
+    
+                // Rest of your code for updating file data
+                fileManagementLogics.updatefileManagementData(fileId, { title, description, ...fileUpdate })
+                    .then(result => {
+                        console.log('Update successful:', result);
+                        res.send({ "result": result });
+                    })
+                    .catch((err => {
+                        console.error('Error updating file:', err);
+                        return next(commons.errorHandler(err));
+                    }));
+            });
+        } catch (error) {
+            console.error('Error updating file:', error);
+            return next(commons.errorHandler(error));
+        }
     }
+    
 
     function deleteFileManagement(req, res, next) {
-        const { params: { fileId } } = req
-        fileManagementLogics.softDelete(fileId).then(result => {
-            res.send({ "result": result })
-        }).catch((err => {
-            return next(commons.errorHandler(err));
-        }))
+        const { params: { fileId } } = req;
+        console.log('Deleting file with ID:', fileId);
+    
+        fileManagementLogics.softDelete(fileId)
+            .then(result => {
+                console.log('Soft delete result:', result);
+                res.send({ "result": result });
+            })
+            .catch(err => {
+                console.error('Error during soft delete:', err);
+                return next(commons.errorHandler(err));
+            });
     }
+    
+    
+    
+    
 }

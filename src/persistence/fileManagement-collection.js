@@ -47,22 +47,43 @@ module.exports = function ({ mongoose }) {
             })         
         },
 
-        updatefileManagementData: function(fileManagementId,updateData){
-            return fileManagementModel.findOneAndUpdate({ _id: fileManagementId }, updateData,{ returnDocument: 'after' }).then(response=>{
-                return response
-            }).catch(error=>{
+        updatefileManagementData: function(fileManagementId, updateData) {
+            // Destructure updateData to get title, description, and file
+            const { title, description, file } = updateData;
+        
+            // If the file field is provided, update it accordingly
+            const updateObject = {};
+            if (title) updateObject.title = title;
+            if (description) updateObject.description = description;
+            if (file) updateObject.file = file;
+        
+            return fileManagementModel.findOneAndUpdate(
+                { _id: fileManagementId },
+                updateObject,
+                { returnDocument: 'after' }
+            )
+            .then(response => {
+                return response;
+            })
+            .catch(error => {
                 let err = new Error(error);
-                throw err
-            })        
+                throw err;
+            });
         },
+        
 
-        softDelete: function(fileManagementId){
-            return fileManagementModel.findOneAndUpdate({ _id: fileManagementId }, {isDeleted: true}).then(response=>{
-                return response
-            }).catch(error=>{
-                let err = new Error(error);
-                throw err
-            })        
+        softDelete: function(fileManagementId) {
+            return fileManagementModel.deleteOne({ _id: fileManagementId })
+                .then(response => {
+                    return response;
+                })
+                .catch(error => {
+                    let err = new Error(error);
+                    throw err;
+                });
         }
+        
+        
+        
     }
 }
