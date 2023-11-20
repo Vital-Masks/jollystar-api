@@ -38,6 +38,14 @@ module.exports = function ({ mongoose }) {
                 throw err
             })         
         },
+        getPaymentByMemberId: function(MemberId){
+            return paymentModel.find({memberId: MemberId}).lean().then(result=>{
+                return result
+            }).catch(error=>{
+                let err = new Error(error);
+                throw err
+            })         
+        },
 
 
         getAllpayments: function(){

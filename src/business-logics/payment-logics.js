@@ -14,6 +14,10 @@ module.exports = function({paymentCollection, config, aws}){
             return paymentCollection.getpaymentById(paymentId)
         },
 
+        getPaymentByMemberId: function (MemberId){
+            return paymentCollection.getPaymentByMemberId(MemberId)
+        },
+
         // getPaymentByEmail: function (email){
         //     return paymentCollection.getPaymentByEmail(email)
         // },

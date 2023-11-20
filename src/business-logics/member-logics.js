@@ -1,4 +1,4 @@
-module.exports = function({memberCollection, config, aws}){
+module.exports = function({memberCollection, paymentLogics}){
     return {
 
         createMember:async function (memberObj) {
@@ -18,8 +18,16 @@ module.exports = function({memberCollection, config, aws}){
             return memberCollection.getMemberByEmail(email)
         },
 
-        getAllmembers: function (){
-            return memberCollection.getAllmembers()
+        getAllmembers: async function () {
+            return new Promise(async (resolve, reject) => {
+                let allMemebers = await memberCollection.getAllmembers()
+                for(let i=0; i<allMemebers.length; i++){
+                    let paymentDetails = await paymentLogics.getPaymentByMemberId(allMemebers[i]._id.valueOf())
+                    allMemebers[i].paymentDetails = paymentDetails
+                }
+                resolve(allMemebers)
+            })
+
         },
 
         changeMemberApproval: function (memberId, memberApprovalStatus, declinedMessage) {

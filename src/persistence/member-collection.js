@@ -74,7 +74,7 @@ module.exports = function ({ mongoose }) {
 
 
         getAllmembers: function(){
-            return memberModel.find().then(result=>{
+            return memberModel.find().lean().then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);
