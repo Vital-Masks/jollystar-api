@@ -91,7 +91,7 @@ module.exports = function ({ mongoose }) {
             })    
         },
 
-        updatememberData: function(memberId,updateData){
+        updateMemberData: function(memberId,updateData){
             return memberModel.findOneAndUpdate({ _id: memberId }, updateData,{ returnDocument: 'after' }).then(response=>{
                 return response
             }).catch(error=>{

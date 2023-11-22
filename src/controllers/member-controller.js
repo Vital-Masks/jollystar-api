@@ -6,10 +6,12 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
     this.expressRouter.get('/getAllmembers', getAllmembers);
     this.expressRouter.get('/getEmail', getmemberByEmail);
     this.expressRouter.get('/:memberId', getmemberById);
+    this.expressRouter.put('/:memberId', updateMemberData);
     this.expressRouter.put('/memberApproval/:memberId', changeMemberApproval);
     const mongoose = require('mongoose');
 
     return this.expressRouter
+
 
     function createMember(req, res, next) {
         const { body } = req;
@@ -60,6 +62,16 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
 
     function getAllmembers(req, res, next) {
         memberLogics.getAllmembers().then(result => {
+            res.send({ "result": result })
+        }).catch((err => {
+            return next(commons.errorHandler(err));
+        }))
+    }
+
+    function updateMemberData(req, res, next) {
+        const { params: { memberId } } = req
+        const { body } = req
+        memberLogics.updateMemberData(memberId, body).then(result => {
             res.send({ "result": result })
         }).catch((err => {
             return next(commons.errorHandler(err));

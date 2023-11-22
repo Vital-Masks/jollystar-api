@@ -29,6 +29,9 @@ module.exports = function({memberCollection, paymentLogics}){
             })
 
         },
+        updateMemberData: function(memberId,updateData){
+            return memberCollection.updateMemberData(memberId,updateData)
+        },
 
         changeMemberApproval: function (memberId, memberApprovalStatus, declinedMessage) {
             if (memberApprovalStatus == 'DECLINED' || memberApprovalStatus == 'REMOVED') {
