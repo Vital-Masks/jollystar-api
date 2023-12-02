@@ -9,6 +9,7 @@ module.exports = function run({ initiateModule, container }) {
   var app = container.resolve("app");
 
   var url = 'mongodb+srv://jollystarDb:jollystarDb%402023@jollystarcluster.awkbybu.mongodb.net/Jollystar?retryWrites=true&w=majority';
+  var rusurl ="mongodb+srv://rushanthbala:rushanthbala@cluster0.ma55gsm.mongodb.net/"
   // initiateAwsServices()
   initiateMongoDB().then(res => {
     return initiateRoutes();
