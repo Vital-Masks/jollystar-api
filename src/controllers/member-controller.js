@@ -2,12 +2,14 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
   this.expressRouter = new express.Router({ mergeParams: true });
 
   this.expressRouter.post("/", createMember);
+  this.expressRouter.post("/login", loginMember);
   this.expressRouter.get("/getAllmembers", getAllmembers);
   this.expressRouter.get(
     "/getMemberStatusMembers/:memberApprovalStatus",
     getMemberStatusMembers
   );
   this.expressRouter.get("/getEmail", getmemberByEmail);
+  this.expressRouter.get("/memberPayment/:memberId", getmemberPaymentById);
   this.expressRouter.get("/:memberId", getmemberById);
   this.expressRouter.put("/:memberId", updateMemberData);
   this.expressRouter.put("/memberApproval/:memberId", changeMemberApproval);
@@ -40,6 +42,20 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
         return next(commons.errorHandler(err));
       });
   }
+  function loginMember(req, res, next) {
+    const { body } = req;
+    let email = body.email;
+    let password = body.password;
+    delete body.paymentDetails;
+    return memberLogics
+      .loginMember(email, password)
+      .then((result) => {
+        res.send({ result: result });
+      })
+      .catch((err) => {
+        return next(commons.errorHandler(err));
+      });
+  }
 
   function getmemberByEmail(req, res, next) {
     const {
@@ -67,6 +83,24 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
 
     memberLogics
       .getmemberById(memberId)
+      .then((result) => {
+        res.send({ result: result });
+      })
+      .catch((err) => {
+        return next(commons.errorHandler(err));
+      });
+  }
+  function getmemberPaymentById(req, res, next) {
+    const {
+      params: { memberId },
+    } = req;
+
+    if (!mongoose.Types.ObjectId.isValid(memberId)) {
+      return res.status(400).send({ error: "Invalid memberId" });
+    }
+
+    memberLogics
+      .getmemberPaymentById(memberId)
       .then((result) => {
         res.send({ result: result });
       })
@@ -131,22 +165,18 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
       memberApprovalStatus !== "PENDING" &&
       memberApprovalStatus !== "REMOVED"
     ) {
-      res
-        .status(400)
-        .send({
-          result:
-            "Member Approval Status in wrong. It should be APPROVED or PENDING or DECLINED or REMOVED",
-        });
+      res.status(400).send({
+        result:
+          "Member Approval Status in wrong. It should be APPROVED or PENDING or DECLINED or REMOVED",
+      });
     } else if (
       (memberApprovalStatus == "DECLINED" ||
         memberApprovalStatus == "REMOVED") &&
       (!declinedMessage || declinedMessage == "")
     ) {
-      res
-        .status(400)
-        .send({
-          result: "Declined memberships should be have a declined message",
-        });
+      res.status(400).send({
+        result: "Declined memberships should be have a declined message",
+      });
     } else if (
       (memberApprovalStatus == "DECLINED" ||
         memberApprovalStatus == "REMOVED") &&
