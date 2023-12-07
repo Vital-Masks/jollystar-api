@@ -83,6 +83,18 @@ module.exports = function ({ mongoose }) {
           throw err;
         });
     },
+    getmemberPaymentById: function (memberId) {
+        return memberModel
+          .findById(memberId)
+          .lean()
+          .then((result) => {
+            return [result];
+          })
+          .catch((error) => {
+            let err = new Error(error);
+            throw err;
+          });
+      },
 
     getAllmembers: function () {
       return memberModel
@@ -113,7 +125,7 @@ module.exports = function ({ mongoose }) {
         // Assuming your memberModel has a 'email' and 'password' field
         const user = memberModel.findOne({ email, password });
         if (user) {
-            
+
           return user;
         } else {
           // User not found

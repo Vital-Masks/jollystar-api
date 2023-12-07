@@ -34,32 +34,19 @@ module.exports = function ({ memberCollection, paymentLogics }) {
       return new Promise(async (resolve, reject) => {
         try {
           // Retrieve member data
-          const memberData = await memberCollection.getmemberById(memberId);
-          console.log("Member Data:", memberData);
-    
-          // Retrieve payment data
-          const memberDataWithPayment = await paymentLogics.getPaymentByMemberId(memberId);
-          console.log("Member Data with Payment:", memberDataWithPayment);
-    
-          // Ensure paymentDetails property exists in memberData
-          memberData.paymentDetails = memberData.paymentDetails || [];
-    
-          // Add payment data to the paymentDetails array
-          memberData.paymentDetails.push(...memberDataWithPayment);
-    
-          // Log the result after the assignment
-          console.log("After Assignment:", memberData);
-    
-          // Resolve with the updated memberData
-          resolve(memberData);
+          let allMemebers = await memberCollection.getmemberPaymentById(memberId);
+          let paymentDetails = await paymentLogics.getPaymentByMemberId(
+            memberId
+          );
+          allMemebers[0].paymentDetails = paymentDetails;
+        
+          resolve(allMemebers);
         } catch (error) {
           // Reject if there's an error
           reject(error);
         }
       });
     },
-    
-    
 
     getMemberByEmail: function (email) {
       return memberCollection.getMemberByEmail(email);
