@@ -3,6 +3,7 @@ module.exports = class Router{
         memberController,
         fileManagementController,
         newsManagementController,
+        galleryManagementController,
         express
     }){
         let router = new express.Router();
@@ -10,6 +11,7 @@ module.exports = class Router{
         router.use('/member',memberController);
         router.use('/fileManagement',fileManagementController);
         router.use('/newsManagement',newsManagementController);
+        router.use('/galleryManagement',galleryManagementController);
 
 
         return router
