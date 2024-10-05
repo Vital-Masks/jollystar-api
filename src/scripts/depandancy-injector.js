@@ -19,7 +19,7 @@ module.exports = function loadModules(awilix){
 
 
     container.loadModules([
-        ['src/server.js', { register: awilix.asClass, lifetime: awilix.Lifetime.SINGLETON }],
+        ['src/index.js', { register: awilix.asClass, lifetime: awilix.Lifetime.SINGLETON }],
         ['src/controllers/*.js', { register: awilix.asClass, lifetime: awilix.Lifetime.SINGLETON }],
         ['src/business-logics/*.js', { register: awilix.asClass }],
         ['src/config/*.js', { register: awilix.asClass }],
