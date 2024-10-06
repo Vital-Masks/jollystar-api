@@ -1,5 +1,5 @@
-module.exports = function({}){
-    return{
+
+    var commons = {
         errorHandler(originalError){
             const error = new Error();
             // error.code = typeof err === "string" ? err  : err.code;
@@ -11,4 +11,4 @@ module.exports = function({}){
 
 
     }
-}
+module.exports = commons

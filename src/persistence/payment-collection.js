@@ -1,4 +1,4 @@
-module.exports = function ({ mongoose }) {
+const mongoose = require('mongoose')
     const paymentSchema = new mongoose.Schema({
         memberId: { type: mongoose.Schema.ObjectId, ref: 'members', required: false, autopopulate: true },
         bank: { type: String, required: false },
@@ -18,7 +18,7 @@ module.exports = function ({ mongoose }) {
 
     const paymentModel = mongoose.model('payments', paymentSchema)
 
-    return{
+    var paymentCollection ={
         createPayment: function(doc){
             const newpaymentReqObj = new paymentModel(doc)
             return newpaymentReqObj.save().then(result=>{ 
@@ -75,4 +75,4 @@ module.exports = function ({ mongoose }) {
             })        
         }
     }
-}
+module.exports = paymentCollection

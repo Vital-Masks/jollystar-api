@@ -1,4 +1,5 @@
-module.exports = function ({ mongoose }) {
+
+  const mongoose = require('mongoose')
   const memberSchema = new mongoose.Schema(
     {
       membershipCategory: { type: String, required: false },
@@ -57,7 +58,7 @@ module.exports = function ({ mongoose }) {
 
   const memberModel = mongoose.model("members", memberSchema);
 
-  return {
+  var memberCollection = {
     createMember: function (doc) {
       const newmemberReqObj = new memberModel(doc);
       return newmemberReqObj
@@ -176,4 +177,4 @@ module.exports = function ({ mongoose }) {
         });
     },
   };
-};
+module.exports = memberCollection

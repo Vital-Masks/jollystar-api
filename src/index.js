@@ -1,4 +1,5 @@
 module.exports = function run({ initiateModule, container }) {
+  const commonrouter = require('./router');
   initiateModule(initiateModule, "initiateModule");
   initiateModule(container, "container");
 
@@ -64,7 +65,7 @@ module.exports = function run({ initiateModule, container }) {
         res.status(200).send('ticketraa APIs!');
       });
 
-      var commonrouter = container.resolve("router");
+
       app.use('/api/', commonrouter);
       console.log("Main Routes successfully plugged");
     }

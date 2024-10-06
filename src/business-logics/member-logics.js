@@ -1,5 +1,7 @@
-module.exports = function ({ memberCollection, paymentLogics }) {
-  return {
+
+  const memberCollection = require('../persistence/member-collection')
+  const paymentLogics = require('../business-logics/payment-logics')
+  var memberLogics = {
     createMember: async function (memberObj) {
       // let email = memberObj.email.trim()
       // let password = memberObj.password.trim()
@@ -126,4 +128,5 @@ module.exports = function ({ memberCollection, paymentLogics }) {
       }
     },
   };
-};
+
+module.exports = memberLogics

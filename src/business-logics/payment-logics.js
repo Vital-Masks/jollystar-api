@@ -1,5 +1,6 @@
-module.exports = function({paymentCollection, config, aws}){
-    return {
+
+const paymentCollection = require('../persistence/payment-collection')
+    var paymentLogics =  {
 
         createPayment:async function (paymentObj) {
             // let email = paymentObj.email.trim()
@@ -26,4 +27,4 @@ module.exports = function({paymentCollection, config, aws}){
             return paymentCollection.getAllpayments()
         }
     }
-}
+module.exports = paymentLogics

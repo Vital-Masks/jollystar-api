@@ -1,21 +1,25 @@
-module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
-  this.expressRouter = new express.Router({ mergeParams: true });
 
-  this.expressRouter.post("/", createMember);
-  this.expressRouter.post("/login", loginMember);
-  this.expressRouter.get("/getAllmembers", getAllmembers);
-  this.expressRouter.get(
+  const paymentLogics = require('../business-logics/payment-logics')
+  const memberLogics = require('../business-logics/member-logics')
+  const commons =  require('../utils/commons')
+  const express = require('express');
+// const router = express.Router()
+  expressRouter =express.Router();
+
+  expressRouter.post("/", createMember);
+  expressRouter.post("/login", loginMember);
+  expressRouter.get("/getAllmembers", getAllmembers);
+  expressRouter.get(
     "/getMemberStatusMembers/:memberApprovalStatus",
     getMemberStatusMembers
   );
-  this.expressRouter.get("/getEmail", getmemberByEmail);
-  this.expressRouter.get("/memberPayment/:memberId", getmemberPaymentById);
-  this.expressRouter.get("/:memberId", getmemberById);
-  this.expressRouter.put("/:memberId", updateMemberData);
-  this.expressRouter.put("/memberApproval/:memberId", changeMemberApproval);
+  expressRouter.get("/getEmail", getmemberByEmail);
+  expressRouter.get("/memberPayment/:memberId", getmemberPaymentById);
+  expressRouter.get("/:memberId", getmemberById);
+  expressRouter.put("/:memberId", updateMemberData);
+  expressRouter.put("/memberApproval/:memberId", changeMemberApproval);
   const mongoose = require("mongoose");
 
-  return this.expressRouter;
 
   function createMember(req, res, next) {
     const { body } = req;
@@ -202,4 +206,4 @@ module.exports = function ({ express, memberLogics, paymentLogics, commons }) {
         });
     }
   }
-};
+  module.exports = expressRouter
