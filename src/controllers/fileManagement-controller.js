@@ -1,7 +1,8 @@
-
-
-module.exports = function ({ express, fileManagementLogics, commons, multer }) {
-    this.expressRouter = new express.Router({ mergeParams: true });
+const express = require('express');
+const fileManagementLogics = require('../business-logics/fileManagement-logics')
+const commons = require('../utils/commons')
+const multer = require('multer')
+expressRouter = express.Router();
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -15,15 +16,11 @@ module.exports = function ({ express, fileManagementLogics, commons, multer }) {
       
       const upload = multer({ storage: storage })
 
-    this.expressRouter.post('', upload.single("file"), createFileManagement);
-    this.expressRouter.get('/getAllFiles', getAllFileManagements);
-    this.expressRouter.get('/:fileId', getFileByFileId);
-    this.expressRouter.put('/:fileId', updateFileManagement);
-    this.expressRouter.delete('/delete/:fileId', deleteFileManagement);
-
-    return this.expressRouter
-    
-
+    expressRouter.post('', upload.single("file"), createFileManagement);
+    expressRouter.get('/getAllFiles', getAllFileManagements);
+    expressRouter.get('/:fileId', getFileByFileId);
+    expressRouter.put('/:fileId', updateFileManagement);
+    expressRouter.delete('/delete/:fileId', deleteFileManagement);
 
     function createFileManagement(req, res, next) {
         const { body } = req
@@ -112,7 +109,4 @@ module.exports = function ({ express, fileManagementLogics, commons, multer }) {
             });
     }
     
-    
-    
-    
-}
+module.exports = expressRouter

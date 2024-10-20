@@ -1,15 +1,13 @@
+    const express = require('express');
+    const galleryManagementLogics = require('../business-logics/galleryManagement-logics')
+    const commons = require('../utils/commons')
+    expressRouter = express.Router();
 
-
-module.exports = function ({ express, galleryManagementLogics, commons, multer }) {
-    this.expressRouter = new express.Router({ mergeParams: true });
-
-    this.expressRouter.post('', createGalleryManagement);
-    this.expressRouter.get('/getAllGallery', getAllGalleryManagements);
-    this.expressRouter.get('/:galleryId', getGalleryByGalleryId);
-    this.expressRouter.put('/:galleryId', updateGalleryManagement);
-    this.expressRouter.delete('/:galleryId', deleteGalleryManagement);
-
-    return this.expressRouter
+    expressRouter.post('', createGalleryManagement);
+    expressRouter.get('/getAllGallery', getAllGalleryManagements);
+    expressRouter.get('/:galleryId', getGalleryByGalleryId);
+    expressRouter.put('/:galleryId', updateGalleryManagement);
+    expressRouter.delete('/:galleryId', deleteGalleryManagement);
     
     function createGalleryManagement(req, res, next) {
         const { body } = req
@@ -75,4 +73,4 @@ module.exports = function ({ express, galleryManagementLogics, commons, multer }
                 return next(commons.errorHandler(err));
             });
     }  
-}
+module.exports = expressRouter

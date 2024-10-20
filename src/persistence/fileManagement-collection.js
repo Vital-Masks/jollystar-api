@@ -1,4 +1,4 @@
-module.exports = function ({ mongoose }) {
+const mongoose = require('mongoose')
     const fileManagementSchema = new mongoose.Schema({
         title: { type: String, required: false },
         description: { type: String, required: false },
@@ -16,7 +16,7 @@ module.exports = function ({ mongoose }) {
 
     const fileManagementModel = mongoose.model('fileManagements', fileManagementSchema)
 
-    return{
+    var fileManagementCollection = {
         createFileManagement: function(doc){
             const newfileManagementReqObj = new fileManagementModel(doc)
             return newfileManagementReqObj.save().then(result=>{ 
@@ -86,4 +86,4 @@ module.exports = function ({ mongoose }) {
         
         
     }
-}
+    module.exports = fileManagementCollection

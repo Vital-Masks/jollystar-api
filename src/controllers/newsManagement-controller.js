@@ -1,15 +1,16 @@
 
+    const express = require('express');
+    const newsManagementLogics = require('../business-logics/newsManagement-logics')
+    const commons = require('../utils/commons')
+    expressRouter = express.Router();
 
-module.exports = function ({ express, newsManagementLogics, commons, multer }) {
-    this.expressRouter = new express.Router({ mergeParams: true });
 
-    this.expressRouter.post('', createNewsManagement);
-    this.expressRouter.get('/getAllNews', getAllNewsManagements);
-    this.expressRouter.get('/:newsId', getNewsByNewsId);
-    this.expressRouter.put('/:newsId', updateNewsManagement);
-    this.expressRouter.delete('/:newsId', deleteNewsManagement);
+    expressRouter.post('', createNewsManagement);
+    expressRouter.get('/getAllNews', getAllNewsManagements);
+    expressRouter.get('/:newsId', getNewsByNewsId);
+    expressRouter.put('/:newsId', updateNewsManagement);
+    expressRouter.delete('/:newsId', deleteNewsManagement);
 
-    return this.expressRouter
     
     function createNewsManagement(req, res, next) {
         const { body } = req
@@ -75,4 +76,4 @@ module.exports = function ({ express, newsManagementLogics, commons, multer }) {
                 return next(commons.errorHandler(err));
             });
     }  
-}
+module.exports = expressRouter

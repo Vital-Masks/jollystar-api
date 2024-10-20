@@ -1,5 +1,6 @@
-module.exports = function({fileManagementCollection, config, aws}){
-    return {
+
+const fileManagementCollection = require('../persistence/fileManagement-collection')
+    var fileManagementLogics = {
 
         createFileManagement:async function (fileManagementObj) {
             return fileManagementCollection.createFileManagement(fileManagementObj)         
@@ -22,4 +23,4 @@ module.exports = function({fileManagementCollection, config, aws}){
             return fileManagementCollection.softDelete(fileId)
         },
     }
-}
+    module.exports = fileManagementLogics

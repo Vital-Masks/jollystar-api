@@ -3,16 +3,13 @@
   const memberLogics = require('../business-logics/member-logics')
   const commons =  require('../utils/commons')
   const express = require('express');
-// const router = express.Router()
+
   expressRouter =express.Router();
 
   expressRouter.post("/", createMember);
   expressRouter.post("/login", loginMember);
   expressRouter.get("/getAllmembers", getAllmembers);
-  expressRouter.get(
-    "/getMemberStatusMembers/:memberApprovalStatus",
-    getMemberStatusMembers
-  );
+  expressRouter.get("/getMemberStatusMembers/:memberApprovalStatus",getMemberStatusMembers);
   expressRouter.get("/getEmail", getmemberByEmail);
   expressRouter.get("/memberPayment/:memberId", getmemberPaymentById);
   expressRouter.get("/:memberId", getmemberById);

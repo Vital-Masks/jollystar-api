@@ -1,4 +1,4 @@
-module.exports = function ({ mongoose }) {
+const mongoose = require('mongoose')
     const galleryManagementSchema = new mongoose.Schema({
         albumName: { type: String, required: false },
         description: { type: String, required: false },
@@ -17,7 +17,7 @@ module.exports = function ({ mongoose }) {
 
     const galleryManagementModel = mongoose.model('galleryManagements', galleryManagementSchema)
 
-    return{
+    var galleryManagementCollection ={
         createGalleryManagement: function(doc){
             const newgalleryManagementReqObj = new galleryManagementModel(doc)
             return newgalleryManagementReqObj.save().then(result=>{ 
@@ -76,4 +76,4 @@ module.exports = function ({ mongoose }) {
                 });
         }   
     }
-}
+module.exports = galleryManagementCollection

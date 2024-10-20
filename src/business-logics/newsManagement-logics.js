@@ -1,5 +1,5 @@
-module.exports = function({newsManagementCollection, config, aws}){
-    return {
+const newsManagementCollection = require('../persistence/newsManagement-collection')
+var galleryManagementLogics = {
 
         createNewsManagement:async function (newsManagementObj) {
             return newsManagementCollection.createNewsManagement(newsManagementObj)         
@@ -21,4 +21,4 @@ module.exports = function({newsManagementCollection, config, aws}){
             return newsManagementCollection.softDelete(newsManagementId)
         },
     }
-}
+module.exports = galleryManagementLogics

@@ -1,4 +1,4 @@
-module.exports = function ({ mongoose }) {
+const mongoose = require('mongoose')
     const newsManagementSchema = new mongoose.Schema({
         title: { type: String, required: false },
         description: { type: String, required: false },
@@ -17,7 +17,7 @@ module.exports = function ({ mongoose }) {
 
     const newsManagementModel = mongoose.model('newsManagements', newsManagementSchema)
 
-    return{
+    var newsManagementCollection = {
         createNewsManagement: function(doc){
             const newnewsManagementReqObj = new newsManagementModel(doc)
             return newnewsManagementReqObj.save().then(result=>{ 
@@ -76,4 +76,4 @@ module.exports = function ({ mongoose }) {
                 });
         }   
     }
-}
+module.exports = newsManagementCollection

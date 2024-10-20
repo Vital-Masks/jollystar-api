@@ -1,5 +1,5 @@
-module.exports = function({galleryManagementCollection, config, aws}){
-    return {
+const galleryManagementCollection = require('../persistence/galleryManagement-collection')
+    var galleryManagementLogics = {
 
         createGalleryManagement:async function (galleryManagementObj) {
             return galleryManagementCollection.createGalleryManagement(galleryManagementObj)         
@@ -21,4 +21,4 @@ module.exports = function({galleryManagementCollection, config, aws}){
             return galleryManagementCollection.softDelete(galleryManagementId)
         },
     }
-}
+module.exports = galleryManagementLogics
