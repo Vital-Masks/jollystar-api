@@ -18,30 +18,35 @@
   const mongoose = require("mongoose");
 
 
-  function createMember(req, res, next) {
+  async function createMember(req, res, next) {
     const { body } = req;
     let paymentDetails = body.paymentDetails;
 
     delete body.paymentDetails;
+    let alreadyExistMember = await memberLogics.getMemberByEmail(body.email)
+    if(alreadyExistMember.length > 0){
+      return res.status(400).send({ error: "Member Already Exist" });
+    }
+    else{
+      return memberLogics
+        .createMember(body)
+        .then((result) => {
+          console.log("rrr", result);
+          paymentDetails.memberId = result._id;
 
-    return memberLogics
-      .createMember(body)
-      .then((result) => {
-        console.log("rrr", result);
-        paymentDetails.memberId = result._id;
-
-        return paymentLogics
-          .createPayment(paymentDetails)
-          .then((respos) => {
-            res.send({ status: "member  Saved Successfully", result: result });
-          })
-          .catch((err) => {
-            return next(commons.errorHandler(err));
-          });
-      })
-      .catch((err) => {
-        return next(commons.errorHandler(err));
-      });
+          return paymentLogics
+            .createPayment(paymentDetails)
+            .then((respos) => {
+              res.send({ status: "member  Saved Successfully", result: result });
+            })
+            .catch((err) => {
+              return next(commons.errorHandler(err));
+            });
+        })
+        .catch((err) => {
+          return next(commons.errorHandler(err));
+        });
+    }
   }
   function loginMember(req, res, next) {
     const { body } = req;
