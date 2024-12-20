@@ -75,7 +75,7 @@
 
     getmemberById: function (memberId) {
       return memberModel
-        .findById(memberId)
+        .findById(memberId).lean()
         .then((result) => {
           return result;
         })

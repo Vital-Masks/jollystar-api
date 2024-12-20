@@ -29,8 +29,10 @@
       });
     },
 
-    getmemberById: function (memberId) {
-      return memberCollection.getmemberById(memberId);
+    getmemberById: async function (memberId) {
+      let paymentDetails = await paymentLogics.getPaymentByMemberId(memberId);
+      let memberDetails = await memberCollection.getmemberById(memberId)
+      return {...memberDetails,paymentDetail:paymentDetails}
     },
     getmemberPaymentById: async function (memberId) {
       return new Promise(async (resolve, reject) => {
