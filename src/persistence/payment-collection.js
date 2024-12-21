@@ -5,7 +5,9 @@ const mongoose = require('mongoose')
         branch: { type: String, required: false },
         total: { type: String, required: false },
         date: { type: String, required: false },
-        paymentSlip: { type: Object, required: false }
+        paymentSlip: { type: Object, required: false },
+        memberType: { type: String, required: false }
+
     },
         {
             timestamps: {
