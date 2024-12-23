@@ -6,8 +6,8 @@ const paymentCollection = require('../persistence/payment-collection')
                     return paymentCollection.createPayment(paymentObj)        
         },
 
-        getPaymentById: function (paymentId){
-            return paymentCollection.getpaymentById(paymentId)
+        getPaymentByPaymentId: function (paymentId){
+            return paymentCollection.getPaymentByPaymentId(paymentId)
         },
 
         getPaymentByMemberId: function (MemberId){

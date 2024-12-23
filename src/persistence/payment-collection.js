@@ -5,9 +5,8 @@ const mongoose = require('mongoose')
         branch: { type: String, required: false },
         total: { type: String, required: false },
         date: { type: String, required: false },
-        paymentSlip: { type: Object, required: false },
-        memberType: { type: String, required: false }
-
+        membershipCategory:{ type: String, required: false },
+        paymentSlip: { type: Object, required: false }
     },
         {
             timestamps: {
@@ -32,7 +31,7 @@ const mongoose = require('mongoose')
             })
         },
 
-        getpaymentById: function(paymentId){
+        getPaymentByPaymentId: function(paymentId){
             return paymentModel.findById(paymentId).then(result=>{
                 return result
             }).catch(error=>{
