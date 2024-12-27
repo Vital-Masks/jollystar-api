@@ -40,7 +40,7 @@ const mongoose = require('mongoose')
 
 
         getAllgalleryManagements: function(){
-            return galleryManagementModel.find().then(result=>{
+            return galleryManagementModel.find().sort({ created_at: -1 }).then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);
