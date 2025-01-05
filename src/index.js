@@ -11,7 +11,6 @@ module.exports = function run({ initiateModule, container }) {
 
   var url = 'mongodb+srv://jollystarDb:jollystarDb%402023@jollystarcluster.awkbybu.mongodb.net/Jollystar?retryWrites=true&w=majority';
   var rusurl ="mongodb+srv://rushanthbala:rushanthbala@cluster0.ma55gsm.mongodb.net/"
-  // mongodb+srv://januyan:januyan@cluster0.0pwzvdr.mongodb.net/",
   // initiateAwsServices()
   initiateMongoDB().then(res => {
     return initiateRoutes();
@@ -25,7 +24,7 @@ module.exports = function run({ initiateModule, container }) {
   function initiateMongoDB() {
     const mongoose = require('mongoose');
     mongoose.set('strictQuery', true);
-    return mongoose.connect(rusurl).then(res => {
+    return mongoose.connect(url).then(res => {
       console.log("Mongi DB - connected @");
       return res
     });
