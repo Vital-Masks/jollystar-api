@@ -40,7 +40,7 @@ const mongoose = require('mongoose')
 
 
         getAllnewsManagements: function(){
-            return newsManagementModel.find().then(result=>{
+            return newsManagementModel.find().sort({ created_at: -1 }).then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);

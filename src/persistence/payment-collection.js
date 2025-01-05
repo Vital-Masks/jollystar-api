@@ -40,7 +40,7 @@ const mongoose = require('mongoose')
             })         
         },
         getPaymentByMemberId: function(MemberId){
-            return paymentModel.find({memberId: MemberId}).lean().then(result=>{
+            return paymentModel.find({memberId: MemberId}).sort({ created_at: -1 }).lean().then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);
@@ -50,7 +50,7 @@ const mongoose = require('mongoose')
 
 
         getAllpayments: function(){
-            return paymentModel.find().then(result=>{
+            return paymentModel.find().sort({ created_at: -1 }).then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);

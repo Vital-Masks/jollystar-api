@@ -39,7 +39,7 @@ const mongoose = require('mongoose')
 
 
         getAllfileManagements: function(){
-            return fileManagementModel.find().then(result=>{
+            return fileManagementModel.find().sort({ created_at: -1 }).then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);

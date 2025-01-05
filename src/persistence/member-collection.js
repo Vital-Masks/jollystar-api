@@ -99,7 +99,7 @@
 
     getAllmembers: function () {
       return memberModel
-        .find()
+        .find().sort({ created_at: -1 })
         .lean()
         .then((result) => {
           return result;
@@ -112,7 +112,7 @@
 
     getMemberByEmail: function (email) {
       return memberModel
-        .find({ email: email })
+        .find({ email: email }).sort({ created_at: -1 })
         .then((result) => {
           return result;
         })
