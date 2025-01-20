@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
         date: { type: String, required: false },
         membershipCategory:{ type: String, required: false },
         paymentSlip: { type: Object, required: false },
-        isPaymentDetailVerified: { type: Boolean, required: false },
+        isPaymentDetailVerified: { type: Boolean, required: false, default: false },
     },
         {
             timestamps: {
@@ -68,7 +68,7 @@ const mongoose = require('mongoose')
         //     })    
         // },
 
-        updatepaymentData: function(paymentId,updateData){
+        updatePaymentData: function(paymentId,updateData){
             return paymentModel.findOneAndUpdate({ _id: paymentId }, updateData,{ returnDocument: 'after' }).then(response=>{
                 return response
             }).catch(error=>{

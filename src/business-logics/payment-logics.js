@@ -14,6 +14,10 @@ const paymentCollection = require('../persistence/payment-collection')
             return paymentCollection.getPaymentByMemberId(MemberId)
         },
 
+        updatePaymentData:  function (paymentId,updateData){
+            return paymentCollection.updatePaymentData(paymentId,updateData)
+        },
+
         getAllpayments: function (){
             return paymentCollection.getAllpayments()
         }

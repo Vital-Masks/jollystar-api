@@ -47,7 +47,7 @@
         try {
             const { params: { paymentId } } = req;
             const { body } = req;
-                paymentLogics.updatepaymentData(paymentId,body)
+                paymentLogics.updatePaymentData(paymentId,body)
                     .then(result => {
                         console.log('Update successful:', result);
                         res.send({ "result": result });
