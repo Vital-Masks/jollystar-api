@@ -121,6 +121,18 @@
           throw err;
         });
     },
+
+    getMemberByMembershipId: function (membershipId) {
+      return memberModel
+        .find({ membershipId: membershipId }).sort({ created_at: -1 })
+        .then((result) => {
+          return result;
+        })
+        .catch((error) => {
+          let err = new Error(error);
+          throw err;
+        });
+    },
     findUser: function (email, password) {
       try {
         // Assuming your memberModel has a 'email' and 'password' field

@@ -56,6 +56,10 @@
       return memberCollection.getMemberByEmail(email);
     },
 
+    getMemberByMembershipId: function (membershipId) {
+      return memberCollection.getMemberByMembershipId(membershipId);
+    },
+
     getAllmembers: async function () {
       return new Promise(async (resolve, reject) => {
         let allMemebers = await memberCollection.getAllmembers();

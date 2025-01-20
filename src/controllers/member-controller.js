@@ -23,9 +23,10 @@
     let paymentDetails = body.paymentDetails;
 
     delete body.paymentDetails;
-    let alreadyExistMember = await memberLogics.getMemberByEmail(body.email)
-    if(alreadyExistMember.length > 0){
-      return res.status(400).send({ error: "Member Already Exist" });
+    let alreadyExistEmail = await memberLogics.getMemberByEmail(body.email)
+    let alreadyExistMembership = await memberLogics.getMemberByMembershipId(body.membershipId)
+    if(alreadyExistEmail.length > 0 || alreadyExistMembership.length > 0){
+      return res.status(400).send({ error: "Member email or membershipId Already Exist" });
     }
     else{
       return memberLogics
