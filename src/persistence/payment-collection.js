@@ -6,7 +6,8 @@ const mongoose = require('mongoose')
         total: { type: String, required: false },
         date: { type: String, required: false },
         membershipCategory:{ type: String, required: false },
-        paymentSlip: { type: Object, required: false }
+        paymentSlip: { type: Object, required: false },
+        isPaymentDetailVerified: { type: Boolean, required: false },
     },
         {
             timestamps: {
