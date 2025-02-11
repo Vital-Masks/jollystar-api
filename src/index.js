@@ -57,7 +57,7 @@ module.exports = function run({ initiateModule, container }) {
       );
       app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ limit: '500mb', extended: true, parameterLimit: 50000 }));
-      app.use(express.static('files'));
+      app.use(express.static('public'));
     }
 
     function setMainRoutes() {
