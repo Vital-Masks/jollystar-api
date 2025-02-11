@@ -67,7 +67,7 @@ module.exports = function run({ initiateModule, container }) {
       });
 
 
-      app.use('/api/',express.static("public"),commonrouter);
+      app.use('/api/',express.static("files"),commonrouter);
       console.log("Main Routes successfully plugged");
     }
 
