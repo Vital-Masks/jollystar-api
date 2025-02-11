@@ -57,6 +57,7 @@ module.exports = function run({ initiateModule, container }) {
       );
       app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ limit: '500mb', extended: true, parameterLimit: 50000 }));
+      // app.use(express.static(__dirname, 'public'));
     }
 
     function setMainRoutes() {
@@ -66,7 +67,7 @@ module.exports = function run({ initiateModule, container }) {
       });
 
 
-      app.use('/api/', commonrouter);
+      app.use('/api/',express.static("public"),commonrouter);
       console.log("Main Routes successfully plugged");
     }
 
