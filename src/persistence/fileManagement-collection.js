@@ -29,7 +29,7 @@ const mongoose = require('mongoose')
         },
 
         getfileManagementById: function(fileManagementId){
-            return fileManagementModel.findById(fileManagementId).then(result=>{
+            return fileManagementModel.findById(fileManagementId).lean().then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);

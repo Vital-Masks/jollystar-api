@@ -2,6 +2,7 @@ const express = require('express');
 const fileManagementLogics = require('../business-logics/fileManagement-logics')
 const commons = require('../utils/commons')
 const multer = require('multer')
+
 expressRouter = express.Router();
 
     const storage = multer.diskStorage({
@@ -19,13 +20,14 @@ expressRouter = express.Router();
     expressRouter.post('', upload.single("file"), createFileManagement);
     expressRouter.get('/getAllFiles', getAllFileManagements);
     expressRouter.get('/:fileId', getFileByFileId);
-    expressRouter.put('/:fileId', updateFileManagement);
+    expressRouter.put('/:fileId', upload.single('file'),updateFileManagement);
     expressRouter.delete('/delete/:fileId', deleteFileManagement);
 
     function createFileManagement(req, res, next) {
-        const { body } = req
+        let { body } = req
+        body = JSON.parse(body.body)
         body.file = req.file.filename
-       
+        console.log(body)
 
         fileManagementLogics.createFileManagement(body).then((result) => {
             res.send({ "status": "Company Request Saved Successfully", "result": result });
@@ -55,29 +57,17 @@ expressRouter = express.Router();
         }))
     }
 
-    function updateFileManagement(req, res, next) {
+    async function updateFileManagement(req, res, next) {
         try {
             const { params: { fileId } } = req;
-    
-            console.log('Received PUT request for fileId:', fileId);
-    
-            // Use the multer middleware to handle the file
-            upload.single('file')(req, res, async function (err) {
-                if (err) {
-                    console.error('Error handling file upload:', err);
-                    return next(err);
-                }
-    
-                console.log('req.body:', req.body); // Log the request body
-                console.log('req.file:', req.file); // Log the uploaded file information
-    
-                const { title, description } = req.body;
-    
-                // Check if req.file is present and update file information
-                const fileUpdate = req.file ? { file: req.file.filename } : {};
-    
+            let { body } = req
+            let existingFileData = await fileManagementLogics.getFileByFileId(fileId)
+            await fileManagementLogics.deleteFile('files/'+existingFileData.file)
+                body = JSON.parse(body.body)
+                body.file = req.file ? req.file.filename : ""
+   
                 // Rest of your code for updating file data
-                fileManagementLogics.updatefileManagementData(fileId, { title, description, ...fileUpdate })
+                fileManagementLogics.updatefileManagementData(fileId, body)
                     .then(result => {
                         console.log('Update successful:', result);
                         res.send({ "result": result });
@@ -86,7 +76,6 @@ expressRouter = express.Router();
                         console.error('Error updating file:', err);
                         return next(commons.errorHandler(err));
                     }));
-            });
         } catch (error) {
             console.error('Error updating file:', error);
             return next(commons.errorHandler(error));
@@ -94,11 +83,13 @@ expressRouter = express.Router();
     }
     
 
-    function deleteFileManagement(req, res, next) {
-        const { params: { fileId } } = req;
-        console.log('Deleting file with ID:', fileId);
-    
-        fileManagementLogics.softDelete(fileId)
+async function deleteFileManagement(req, res, next) {
+    const { params: { fileId } } = req;
+    console.log('Deleting file with ID:', fileId);
+    let existingFileData = await fileManagementLogics.getFileByFileId(fileId)
+    if (existingFileData && existingFileData.file) {
+        fileManagementLogics.deleteFile('files/' + existingFileData.file).then(res=>{
+            fileManagementLogics.softDelete(fileId)
             .then(result => {
                 console.log('Soft delete result:', result);
                 res.send({ "result": result });
@@ -107,6 +98,17 @@ expressRouter = express.Router();
                 console.error('Error during soft delete:', err);
                 return next(commons.errorHandler(err));
             });
+        }).catch(err => {
+            console.error('Error during soft delete:', err);
+            return next(commons.errorHandler(err));
+        });
+
+        
+    }else{
+        res.send({ "result": "File data already delete or not exist" });
     }
+
+   
+}
     
 module.exports = expressRouter

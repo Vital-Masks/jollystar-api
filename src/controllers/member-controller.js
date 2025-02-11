@@ -143,19 +143,24 @@
       });
   }
 
-  function updateMemberData(req, res, next) {
-    const {
-      params: { memberId },
-    } = req;
+  async function updateMemberData(req, res, next) {
+    const {params: { memberId }} = req;
     const { body } = req;
-    memberLogics
-      .updateMemberData(memberId, body)
-      .then((result) => {
+
+    let alreadyExistEmail = await memberLogics.getMemberByEmail(body.email)
+    let alreadyExistMembership = await memberLogics.getMemberByMembershipId(body.membershipId)
+
+    if(alreadyExistEmail.length > 0 || alreadyExistMembership.length > 0){
+      return res.status(400).send({ error: "Member email or membershipId Already Exist" });
+    }
+    else{
+    memberLogics.updateMemberData(memberId, body).then((result) => {
         res.send({ result: result });
       })
       .catch((err) => {
         return next(commons.errorHandler(err));
       });
+    }
   }
 
   function changeMemberApproval(req, res, next) {

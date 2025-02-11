@@ -1,5 +1,8 @@
 
+const { resolve } = require('path');
 const fileManagementCollection = require('../persistence/fileManagement-collection')
+const fs = require("fs");
+const { rejects } = require('assert');
     var fileManagementLogics = {
 
         createFileManagement:async function (fileManagementObj) {
@@ -12,6 +15,20 @@ const fileManagementCollection = require('../persistence/fileManagement-collecti
 
         getAllfileManagements: function (){
             return fileManagementCollection.getAllfileManagements()
+        },
+
+        deleteFile: function (file) {
+            return new Promise((resolve, reject) => {
+                fs.unlink(file, (err) => {
+                    if (err) {
+                        console.error(err);
+                        reject(new Error("Failed to delete file"))
+                    }
+                    else{
+                        resolve()
+                    }
+                })
+            })
         },
 
         updatefileManagementData: function(fileManagementId,updateData){
