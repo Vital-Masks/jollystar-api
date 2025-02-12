@@ -9,7 +9,6 @@ module.exports = function loadModules(awilix){
         express: awilix.asValue(require('express')),
         app: awilix.asValue(require('express')()),
         bodyParser: awilix.asValue(require('body-parser')),
-        aws: awilix.asValue(require('aws-sdk')),
         mongoose: awilix.asValue(require('mongoose')),
         mongodb: awilix.asValue(require('mongodb')),
         cors: awilix.asValue(require('cors')),
