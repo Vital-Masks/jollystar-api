@@ -29,7 +29,7 @@ const mongoose = require('mongoose')
         },
 
         getfileManagementById: function(fileManagementId){
-            return fileManagementModel.findById(fileManagementId).lean().then(result=>{
+            return fileManagementModel.findOne({ _id: fileManagementId, isDeleted: { $ne: true } }).lean().then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);
@@ -39,7 +39,7 @@ const mongoose = require('mongoose')
 
 
         getAllfileManagements: function(){
-            return fileManagementModel.find().sort({ created_at: -1 }).then(result=>{
+            return fileManagementModel.find({ isDeleted: { $ne: true } }).sort({ created_at: -1 }).then(result=>{
                 return result
             }).catch(error=>{
                 let err = new Error(error);
@@ -73,7 +73,11 @@ const mongoose = require('mongoose')
         
 
         softDelete: function(fileManagementId) {
-            return fileManagementModel.deleteOne({ _id: fileManagementId })
+            return fileManagementModel.findOneAndUpdate(
+                { _id: fileManagementId },
+                { isDeleted: true },
+                { returnDocument: 'after' }
+            )
                 .then(response => {
                     return response;
                 })

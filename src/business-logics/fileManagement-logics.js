@@ -36,7 +36,6 @@ const { rejects } = require('assert');
         },
 
         softDelete: function (fileId){
-            console.log("zxcz",fileId)
             return fileManagementCollection.softDelete(fileId)
         },
     }
