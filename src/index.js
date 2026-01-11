@@ -9,8 +9,10 @@ module.exports = function run({ initiateModule, container }) {
 
   var app = container.resolve("app");
 
-  var url = 'mongodb+srv://jollystarDb:jollystarDb%402023@jollystarcluster.awkbybu.mongodb.net/Jollystar?retryWrites=true&w=majority';
-  var rusurl ="mongodb+srv://rushanthbala:rushanthbala@cluster0.ma55gsm.mongodb.net/"
+  // var url = 'mongodb+srv://jollystarDb:jollystarDb%402023@jollystarcluster.awkbybu.mongodb.net/Jollystar?retryWrites=true&w=majority';
+  // var rusurl ="mongodb+srv://rushanthbala:rushanthbala@cluster0.ma55gsm.mongodb.net/"
+  var url ="mongodb://jollystaradminuser:jollystaradminuser@127.0.0.1:27017/Jollystar?authSource=admin"
+
   // initiateAwsServices()
   initiateMongoDB().then(res => {
     return initiateRoutes();
