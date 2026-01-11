@@ -127,13 +127,9 @@ expressRouter = express.Router();
             
             let parsedBody = {};
             
-            // Safely parse body.body if it exists
-            if (body && body.body) {
-                try {
-                    parsedBody = JSON.parse(body.body);
-                } catch (parseError) {
-                    return res.status(400).send({ "error": "Invalid JSON in request body" });
-                }
+            // Copy all fields from body to parsedBody
+            if (body) {
+                parsedBody = { ...body };
             }
             
             // Handle file update
